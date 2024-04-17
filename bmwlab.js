@@ -1,5 +1,4 @@
 window.addEventListener("load", function(){
-    console.log('script added, thanks!')
     const rootModelsId = "763";
     const selectModels = document.getElementById('bmw-lab-models');
     const selectSeries = document.getElementById('bmw-lab-series');
@@ -22,27 +21,84 @@ window.addEventListener("load", function(){
     const powerDiff2 = document.getElementById('bmw-lab-powerDiff2');
 
     const getData = (obj, parentId) => {
-        const condition = obj?.conditions.find(i => i.fieldId === parentId)
+        const condition = obj?.conditions.find(i => i.fieldId === parentId);
+        const value = condition?.value;
+        const model = value.split('-')?.[0];
+        const modelNumber = model.replace(/\D/g,'');
 
         return ({
             fieldId: obj.fieldId,
             fieldKey: obj.fieldKey,
             dependents: obj.dependents,
             parentId: condition?.fieldId,
-            value: condition?.value
+            value: value,
+            model: model,
+            modelNumber: modelNumber
         })
     }
 
-    const addOptions = (id, selectElement) => {
+    function compareNumbers(a, b) {
+        return a.modelNumber - b.modelNumber;
+    }
+
+    const addOptions = (id, selectElement, type) => {
+        if (!id) return;
+
+        let arrayToRender = [];
         const dependentsIds = carData[id].dependents;
 
-        const uniqValues = {};
+        const arr = [];
         dependentsIds.forEach(depId => {
             const item = carData[depId];
             if (!item) return;
-
             const obj = getData(item, id);
+            arr.push(obj);
+        });
 
+
+        if (type === 'engines') {
+            // const arr = [];
+            // dependentsIds.forEach(depId => {
+            //     const item = carData[depId];
+            //     if (!item) return;
+            //     const obj = getData(item, id);
+            //     arr.push(obj);
+            // });
+
+            arr.sort((a, b) => a.modelNumber - b.modelNumber);
+            const i = [];
+            const d = [];
+
+            arr.forEach(item => {
+                if (item.model.includes('i')) {
+                    i.push(item);
+                } else if (item.model.includes('d')) {
+                    d.push(item);
+                } else {
+                    console.log('no i or d')
+                }
+            })
+
+            const empty = {
+                fieldId: '',
+                value: '---'
+            }
+
+            if (i.length && d.length) {
+                arrayToRender = [...i, empty, ...d];
+            } else if (i.length && !d.length) {
+                arrayToRender = [...i];
+            } else if (!i.length && d.length) {
+                arrayToRender = [...d];
+            }
+
+
+        } else {
+            arrayToRender = arr;
+        }
+
+        const uniqValues = {};
+        arrayToRender.forEach(obj => {
             if (uniqValues[obj.value]) return;
 
             const option = document.createElement("option");
@@ -51,12 +107,9 @@ window.addEventListener("load", function(){
             selectElement.appendChild(option);
             uniqValues[obj.value] = true;
         });
-
     }
 
     const showInfo = (infoArr) => {
-        console.log('infoArr', infoArr);
-
         if (infoArr[0] !== 'Stage 1') {
             hideInfo();
             return;
@@ -112,7 +165,7 @@ window.addEventListener("load", function(){
     }
     const initEngines = (seriesId) => {
         selectEngines.length = 1;
-        addOptions(seriesId, selectEngines);
+        addOptions(seriesId, selectEngines, 'engines');
         selectEngines.style.display = 'block';
     }
     const initSpecifications = (engineId) => {
@@ -146,7 +199,6 @@ window.addEventListener("load", function(){
         initSpecifications(this.value);
     });
     selectSpecifications.addEventListener('change', function() {
-        console.log(this.value);
         const info = infoData[this.value];
         if (info) {
             showInfo(info.value)
