@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BMW Lab</title>
+
+    <script src="./bmwlab.js"></script>
+</head>
+<body>
+
+<div class="bmw-lab-subtitle">BMW Lab</div>
+<div class="selects-wrapper">
+    <div>
+        <select id="bmw-lab-models">
+            <option value=""></option>
+        </select>
+    </div>
+    <div>
+        <select id="bmw-lab-series">
+            <option value=""></option>
+        </select>
+    </div>
+    <div>
+        <select id="bmw-lab-engines">
+            <option value=""></option>
+        </select>
+    </div>
+    <div>
+        <select id="bmw-lab-specifications">
+            <option value=""></option>
+        </select>
+    </div>
+</div>
+
+<br>
+<div>
+    <div id="bmw-lab-info" class="info-wrapper">
+        <div id="bmw-lab-stage-1">
+            <div class="info-row info-row-head">
+                <div>Stage 1</div>
+                <div>Original</div>
+                <div>After tuning</div>
+                <div>Difference</div>
+            </div>
+            <div class="info-row">
+                <div>Power</div>
+                <div id="bmw-lab-powerOriginal1"></div>
+                <div id="bmw-lab-powerAfter1"></div>
+                <div id="bmw-lab-powerDiff1"></div>
+            </div>
+            <div class="info-row">
+                <div>Torque</div>
+                <div id="bmw-lab-torqueOriginal1"></div>
+                <div id="bmw-lab-torqueAfter1"></div>
+                <div id="bmw-lab-torqueDiff1"></div>
+            </div>
+        </div>
+
+        <div id="bmw-lab-stage-2">
+            <div class="info-row info-row-head">
+                <div>Stage 2</div>
+                <div>Original</div>
+                <div>After tuning</div>
+                <div>Difference</div>
+            </div>
+            <div class="info-row">
+                <div>Power</div>
+                <div id="bmw-lab-powerOriginal2"></div>
+                <div id="bmw-lab-powerAfter2"></div>
+                <div id="bmw-lab-powerDiff2"></div>
+            </div>
+            <div class="info-row">
+                <div>Torque</div>
+                <div id="bmw-lab-torqueOriginal2"></div>
+                <div id="bmw-lab-torqueAfter2"></div>
+                <div id="bmw-lab-torqueDiff2"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<style>
+    .bmw-lab-subtitle {
+        margin-bottom: 10px;
+    }
+
+    .selects-wrapper {
+        display: flex;
+    }
+
+    .selects-wrapper > div {
+        padding-right: 10px;
+    }
+
+    select {
+        min-width: 200px;
+        height: 30px;
+        outline: none;
+    }
+
+    #bmw-lab-series,
+    #bmw-lab-engines,
+    #bmw-lab-specifications {
+        display: none;
+    }
+
+    #bmw-lab-info {
+        visibility: hidden;
+    }
+
+    #bmw-lab-stage-2 {
+        display: none;
+        border-top: 1px dashed grey;
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+
+    .info-wrapper {
+        border: 1px solid grey;
+        border-radius: 5px;
+        max-width: 400px;
+        padding: 10px;
+
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+
+    .info-row-head {
+        font-weight: bold;
+    }
+
+    .info-row > div {
+        text-align: left;
+        width: 100px;
+    }
+
+    @media (max-width: 600px) {
+        .selects-wrapper {
+            flex-direction: column;
+        }
+
+        .selects-wrapper > div {
+            margin-bottom: 10px;
+            padding-right: 0;
+        }
+
+        select {
+            min-width: 100%;
+            width: 100%;
+        }
+    }
+
+</style>
+
+</body>
+</html>
